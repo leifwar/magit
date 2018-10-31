@@ -142,6 +142,11 @@ This is useful if you use really long branch names."
   :group 'magit-log
   :type 'boolean)
 
+(defcustom magit-log-highlight-keywords-regexp "\\[[^[]*?]"
+  "Regexp used to highlight keywords in log."
+  :group 'magit-log
+  :type 'string)
+
 (defcustom magit-log-header-line-function 'magit-log-header-line-sentence
   "Function used to generate text shown in header line of log buffers."
   :package-version '(magit . "2.12.0")
@@ -1346,7 +1351,7 @@ Do not add this to a hook variable."
       (magit--put-face (match-beginning 0) (1- boundary)
                        'magit-keyword-squash msg))
     (when magit-log-highlight-keywords
-      (while (string-match "\\[[^[]*?]" msg boundary)
+      (while (string-match magit-log-highlight-keywords-regexp msg boundary)
         (setq boundary (match-end 0))
         (magit--put-face (match-beginning 0) boundary
                          'magit-keyword msg))))
